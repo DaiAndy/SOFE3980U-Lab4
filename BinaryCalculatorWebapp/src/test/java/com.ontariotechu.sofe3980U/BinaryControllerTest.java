@@ -56,5 +56,49 @@ public class BinaryControllerTest {
 			.andExpect(model().attribute("result", "1110"))
 			.andExpect(model().attribute("operand1", "111"));
     }
-
+    //These are the 3 more test cases for binary web application ---------------------------------------------------
+    @Test
+    public void postParameter1() throws Exception {
+        this.mvc.perform(post("/").param("operand1","").param("operator","+").param("operand2",""))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "0"));
+    }
+    @Test
+    public void postParameter2() throws Exception {
+        this.mvc.perform(post("/").param("operand1","000000000000000000").param("operator","+").param("operand2","1111111111111111110"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "1111111111111111110"));
+    }
+    @Test
+    public void postParameter3() throws Exception {
+        this.mvc.perform(post("/").param("operand1","00111 ").param("operator","+").param("operand2",""))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "0"));
+    }
+    // Test cases for Newly made operations
+    @Test
+    public void postParameter4() throws Exception {
+        this.mvc.perform(post("/").param("operand1","111").param("operator","*").param("operand2","111"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "110001"));
+    }
+    @Test
+    public void postParameter5() throws Exception {
+        this.mvc.perform(post("/").param("operand1","111").param("operator","|").param("operand2","000"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "111"));
+    }
+    @Test
+    public void postParameter6() throws Exception {
+        this.mvc.perform(post("/").param("operand1","00000000000000").param("operator","&").param("operand2","11111111111111111"))//.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("result"))
+                .andExpect(model().attribute("result", "0"))
+                .andExpect(model().attribute("operand1", "00000000000000"));
+    }
 }
